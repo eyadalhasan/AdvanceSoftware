@@ -31,6 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "score",
+    "openDataAccess",
+    "EducationalResource",
     "communityReport",
     "Register",
     "signals",
