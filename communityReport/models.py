@@ -10,6 +10,8 @@ class CommunityReport(models.Model):
     report_type = models.CharField(max_length=255)
     description = models.TextField()
     city = models.CharField(max_length=255)
+    
+
 
     def __str__(self):
         return f"Report {self.id} - {self.report_type} in {self.city} by {self.user.username}"
