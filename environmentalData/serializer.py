@@ -4,6 +4,7 @@ from .models import EnviromentalData
 
 class EnvironmentalDataSerializer(serializers.ModelSerializer):
     class Meta:
+        
         model = EnviromentalData
         fields = "__all__"
         

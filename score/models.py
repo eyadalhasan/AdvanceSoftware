@@ -8,3 +8,5 @@ class Score(models.Model):
 
     def __str__(self):
         return f"Sustainability Score for {self.user.username}"
+    
+
