@@ -40,7 +40,7 @@ class EnvironmentalDataViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["get"])
     def get_by_temperature(self, request, pk=None):
         temperature = request.query_params.get("temperature", None)
-        if temperature is not None:
+        if temperature is  None:
             return Response(
                 {"error": "temperature parameter is required."},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -52,7 +52,7 @@ class EnvironmentalDataViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["get"])
     def get_by_humidity(self, request, pk=None):
         humidity = request.query_params.get("humidity", None)
-        if humidity is not None:
+        if humidity is  None:
             return Response(
                 {"error": "humidity parameter is required."},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -64,7 +64,7 @@ class EnvironmentalDataViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["get"])
     def get_by_water_quality(self, request, pk=None):
         water_quality = request.query_params.get("water_quality", None)
-        if water_quality is not None:
+        if water_quality is  None:
             return Response(
                 {"error": "water_quality parameter is required."},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -76,7 +76,7 @@ class EnvironmentalDataViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["get"])
     def get_by_biodiversity_metrics(self, request, pk=None):
         biodiversity_metrics = request.query_params.get("biodiversity_metrics", None)
-        if biodiversity_metrics is not None:
+        if biodiversity_metrics is None:
             return Response(
                 {"error": "biodiversity_metrics parameter is required."},
                 status=status.HTTP_400_BAD_REQUEST,
@@ -90,7 +90,7 @@ class EnvironmentalDataViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=["get"])
     def get_by_city(self, request, pk=None):
         city = request.query_params.get("city", None)
-        if city is not None:
+        if city is  None:
             return Response(
                 {"error": "city parameter is required."},
                 status=status.HTTP_400_BAD_REQUEST,

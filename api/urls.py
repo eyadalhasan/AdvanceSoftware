@@ -22,6 +22,7 @@ router.register(
 )
 router.register(r"score", ScoreViewSet, basename="score")
 urlpatterns = [
+    path("", include("news_integration.urls")),
     path("user/", include("Register.urls")),
     path("open_data_access/", OpenDataAccessView.as_view(), name="open_data_access"),
     path("", include(router.urls)),

@@ -16,7 +16,6 @@ class OpenDataAccessView(APIView):
         ROLE_CHOICES = ["scientist", "researcher", "organization"]
         data = request.data
 
-        print(str(request.user.role) in ROLE_CHOICES)
 
         if request.user.role not in ROLE_CHOICES:
             return Response(

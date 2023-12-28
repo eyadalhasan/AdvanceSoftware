@@ -51,6 +51,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     bio = models.TextField(max_length=500, blank=True, null=True)
     birth_date = models.DateField(null=True, blank=True)
     objects = CustomUserManager()
+    threshold_humidity = models.FloatField(null=True, blank=True, default=0)
+    threshold_temperature = models.FloatField(null=True, blank=True, default=0)
+    threshold_water_quality = models.FloatField(null=True, blank=True, default=0)
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = ["email"]

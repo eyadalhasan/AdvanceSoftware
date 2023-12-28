@@ -4,8 +4,13 @@ from Register.models import CustomUser
 
 class EnviromentalData(models.Model):
     user = models.ForeignKey(
-        CustomUser, null=True, on_delete=models.CASCADE, blank=True
+        CustomUser,
+        null=True,
+        on_delete=models.CASCADE,
+        blank=True,
+        related_name="enviromental_data",
     )
+
     timestamp = models.DateTimeField(auto_now_add=True)
     air_quality = models.FloatField()
     temperature = models.FloatField()

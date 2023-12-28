@@ -6,3 +6,4 @@ class CommunityReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = CommunityReport
         fields = "__all__"
+        # depth=1
