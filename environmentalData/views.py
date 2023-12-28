@@ -20,15 +20,21 @@ class EnvironmentalDataViewSet(viewsets.ModelViewSet):
     queryset = EnviromentalData.objects.all()
     serializer_class = EnvironmentalDataSerializer
 
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
+
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
 
     @action(detail=False, methods=["get"])
-    def get_by_title(self, request, pk=None):
+    def get_by_air_quality(self, request, pk=None):
         air_quality = request.query_params.get("air_quality", None)
-        if air_quality is not None:
+        if air_quality is None:
             return Response(
                 {"error": "air_quality parameter is required."},
                 status=status.HTTP_400_BAD_REQUEST,

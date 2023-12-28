@@ -22,6 +22,12 @@ class EducationalResourceViewSet(viewsets.ModelViewSet):
         queryset = self.filter_queryset(self.get_queryset())
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+    
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
+
+    def create(self, request, *args, **kwargs):
+        return super().create(request, *args, **kwargs)
 
     @action(detail=False, methods=["get"])
     def get_by_title(self, request, pk=None):
@@ -31,21 +37,10 @@ class EducationalResourceViewSet(viewsets.ModelViewSet):
                 {"error": "title parameter is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        objs = EducationalResource.objects.filter(title__iexact=title)
+        objs = EducationalResource.objects.filter(title__icontains=title)
         serializer = self.get_serializer(objs, many=True)
         return Response(serializer.data)
 
-    @action(detail=False, methods=["get"])
-    def get_by_type(self, request, pk=None):
-        type = request.query_params.get("type", None)
-        if not type:
-            return Response(
-                {"error": "type parameter is required."},
-                status=status.HTTP_400_BAD_REQUEST,
-            )
-        objs = EducationalResource.objects.filter(report_type__iexact=type)
-        serializer = self.get_serializer(objs, many=True)
-        return Response(serializer.data)
 
     @action(detail=False, methods=["get"])
     def get_by_content(self, request, pk=None):
@@ -67,6 +62,6 @@ class EducationalResourceViewSet(viewsets.ModelViewSet):
                 {"error": "author parameter is required."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
-        objs = EducationalResource.objects.filter(author__iexact=author)
+        objs = EducationalResource.objects.filter(author__icontains=author)
         serializer = self.get_serializer(objs, many=True)
         return Response(serializer.data)

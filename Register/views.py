@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework.authentication import TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.authtoken.models import Token
+from rest_framework import viewsets
 
 
 class RegistrationView(APIView):
@@ -79,3 +80,26 @@ class SignOutView(APIView):
                 {"detail": "No authentication token provided."},
                 status=status.HTTP_400_BAD_REQUEST,
             )
+
+class UpdateProfileView(viewsets.ModelViewSet):
+    permission_classes = [IsAuthenticated]
+    authentication_classes = [TokenAuthentication]
+    queryset = CustomUser.objects.all()
+    serializer_class = CustomUserSerializer
+    http_method_names = ["patch"]
+
+    def list(self, request, *args, **kwargs):
+        queryset = self.filter_queryset(self.get_queryset())
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+    
+    def get_object(self):
+        return self.request.user
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

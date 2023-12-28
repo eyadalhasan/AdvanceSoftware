@@ -5,30 +5,14 @@ from enviromentalAlert.models import EnvironmentalAlert
 from Register.models import CustomUser
 from django.shortcuts import render
 from communityReport.models import CommunityReport
+from EducationalResource.models import EducationalResource
+
 from Register.models import CustomUser
 
 # models.py (environmentalData)
 from django.db import models
 from Register.models import CustomUser
 
-
-class EnviromentalData(models.Model):
-    user = models.ForeignKey(
-        CustomUser, null=True, on_delete=models.CASCADE, blank=True
-    )
-    timestamp = models.DateTimeField(auto_now_add=True)
-    air_quality = models.FloatField()
-    temperature = models.FloatField()
-    humidity = models.FloatField()
-    water_quality = models.FloatField()
-    biodiversity_metrics = models.FloatField()
-    city = models.CharField(max_length=255, blank=True, null=True, default="")
-
-    def __str__(self):
-        return f"{self.city} - {self.temperature}"
-
-    class Meta:
-        verbose_name_plural = "Enviromental Data"
 
 
 # signals.py
@@ -45,7 +29,7 @@ from score.models import Score
 @receiver(post_save, sender=EnviromentalData)
 def check_environment(sender, instance, created, **kwargs):
     user = instance.user
-
+    print(user)
     if user:
         # Fetch the CustomUser object
         custom_user = CustomUser.objects.get(id=user.id)
@@ -86,6 +70,13 @@ def update_sustainability_score(sender, instance, created, **kwargs):
         user_score.sustainability_score += 1
         user_score.save()
 
+@receiver(post_save, sender=EducationalResource)
+def update_sustainability_score_education(sender, instance, created, **kwargs):
+    if created:
+        user = CustomUser.objects.get(id=instance.user.id)
+        user_score, created = Score.objects.get_or_create(user=user)
+        user_score.sustainability_score += 5
+        user_score.save()
 
 @receiver(post_save, sender=CommunityReport)
 def update_sustainability_score_community(sender, instance, created, **kwargs):

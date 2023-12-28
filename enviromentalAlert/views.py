@@ -17,6 +17,10 @@ class EnvironmentalAlertViewSet(viewsets.ModelViewSet):
     serializer_class = EnvironmentalAlertSerializer
     http_method_names = ["get"]
 
+    def get_queryset(self):
+        # Modify the queryset to filter based on the logged-in user
+        return EnvironmentalAlert.objects.filter(user=self.request.user)
+
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         serializer = self.get_serializer(queryset, many=True)
