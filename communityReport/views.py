@@ -66,3 +66,10 @@ class CommunityReportViewSet(viewsets.ModelViewSet):
         objs = CommunityReport.objects.filter(description__icontains=description)
         serializer = self.get_serializer(objs, many=True)
         return Response(serializer.data)
+
+    # @action(detail=False,methods=['get'])
+    # def get_by_user(self,request,pk=None):
+    #     user=
+    # objs = CommunityReport.objects.filter(description__icontains=description)
+    # serializer = self.get_serializer(objs, many=True)
+    # return Response(serializer.data)
